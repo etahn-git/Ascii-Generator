@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
     return render_template('./index.html')
 
+@app.route('/ascii')
+def ascii():
+    return render_template('./ascii.html')
+
 @app.route('/generate_ascii', methods=['POST'])
 def generate_ascii():
     text = request.json['text']
