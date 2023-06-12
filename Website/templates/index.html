@@ -1,7 +1,8 @@
 <html>
 <head>
     <title>Online Tools</title>
-    <link rel="stylesheet" href="./css/background.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background.css') }}">
+
     <style>
         body{
             font-family: 'Exo', sans-serif;
@@ -73,7 +74,7 @@
         </ul>
 
         <a id="github-button" href="https://github.com/etahn-git/tools.etahn.dev" target="_blank">
-            <img id="github-icon" src="./media/github.png" alt="GitHub Icon">
+            <img id="github-icon" src="{{ url_for('static', filename='media/github.png') }}" alt="GitHub Icon">
         </a>
 </div >
 </body>
