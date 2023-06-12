@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASCII Art Generator</title>
+</head>
+<body>
+    <h1>ASCII Art Generator</h1>
+    <form id="textForm">
+        <label for="textInput">Enter your text:</label>
+        <input type="text" id="textInput" required>
+        <button type="submit">Generate ASCII Art</button>
+    </form>
+    <pre id="asciiOutput"></pre>
+    <div class="dropdown">
+        <button id="copyButton" class="dropdown-btn" disabled>Copy ASCII Art ▼</button>
+        <div class="dropdown-content">
+            <a href="#" class="copy-option" data-lang="text">Copy as Text</a>
+            <a href="#" class="copy-option" data-lang="javascript">Copy as JavaScript</a>
+            <a href="#" class="copy-option" data-lang="python">Copy as Python</a>
+            <a href="#" class="copy-option" data-lang="java">Copy as Java</a>
+            <a href="#" class="copy-option" data-lang="cpp">Copy as C++</a>
+            <a href="#" class="copy-option" data-lang="csharp">Copy as C#</a>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('textForm');
+        const textInput = document.getElementById('textInput');
+        const asciiOutput = document.getElementById('asciiOutput');
+        const copyButton = document.getElementById('copyButton');
+        const copyOptions = document.querySelectorAll('.copy-option');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Send request to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/generate_ascii', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const asciiArt = xhr.responseText;
+                    asciiOutput.textContent = asciiArt;
+                    copyButton.disabled = false;
+                }
+            };
+            xhr.send(JSON.stringify({ text: textInput.value }));
+        });
+
+        copyButton.addEventListener('click', function() {
+            copyOptions.forEach(option => {
+                option.href = '#';
+            });
+        });
+
+        copyOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                let textToCopy = '';
+
+                if (lang === 'text') {
+                    textToCopy = asciiOutput.textContent;
+                } else if (lang === 'javascript') {
+                    textToCopy = `console.log(\`${asciiOutput.textContent}\`);`;
+                } else if (lang === 'python') {
+                    textToCopy = `print('''\n${asciiOutput.textContent}\n''')`;
+                } else if (lang === 'java') {
+                    textToCopy = `System.out.println("""\n${asciiOutput.textContent}\n""");`;
+                } else if (lang === 'cpp') {
+                    textToCopy = `#include <iostream>\n\nint main() {\n    std::cout << R"(\n${asciiOutput.textContent}\n)";\n    return 0;\n}`;
+                } else if (lang === 'csharp') {
+                    textToCopy = `using System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        Console.WriteLine(@"""\n${asciiOutput.textContent}\n"");\n    }\n}`;
+                }
+
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    alert('ASCII Art copied!');
+                }).catch(function(err) {
+                    console.error('Failed to copy ASCII Art: ', err);
+                });
+            });
+        });
+    </script>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-btn {
+            background-color: #3e8e41;
+        }
+    </style>
+</body>
+</html>
