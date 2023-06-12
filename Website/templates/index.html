@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Online Tools</title>
-    <link rel="stylesheet" href="background.css">
+    <link rel="stylesheet" href="./background.css">
     <style>
         body{
             font-family: 'Exo', sans-serif;
@@ -18,6 +18,22 @@
             text-align: center;
             color: #fff;
             font-size: 50px;
+        }
+
+        #github-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #github-icon {
+            width: 40px;
+            height: 40px;
         }
     </style>
 </head>
@@ -55,6 +71,10 @@
                 <li></li>
                 <li></li>
         </ul>
+
+        <a id="github-button" href="https://github.com/etahn-git/tools.etahn.dev" target="_blank">
+            <img id="github-icon" src="./media/github.png" alt="GitHub Icon">
+        </a>
 </div >
 </body>
 </html>
