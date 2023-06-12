@@ -12,6 +12,10 @@ def index():
 def ascii():
     return render_template('./ascii.html')
 
+@app.route('/acsii')
+def acsii():
+    return redirect("http://tools.etahn.dev/ascii", code=301)
+
 @app.route('/generate_ascii', methods=['POST'])
 def generate_ascii():
     text = request.json['text']
